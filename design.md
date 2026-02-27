@@ -27,7 +27,7 @@ The system follows a layered architecture with clear separation of concerns:
 ```mermaid
 graph TB
     subgraph Frontend["Frontend Layer"]
-        UI[Next.js on AWS Amplify]
+        UI[Next.js on Vercel]
     end
     
     subgraph API["API Layer"]
@@ -43,8 +43,8 @@ graph TB
     
     subgraph Services["Service Layer"]
         AI[AI Layer<br/>AWS Bedrock]
-        Data[Data Layer<br/>DynamoDB + S3]
-        Analytics[Analytics Layer<br/>QuickSight]
+        Data[Data Layer<br/>MongoDB + S3]
+        Analytics[Analytics Layer<br/>Custom Dashboard]
     end
     
     UI --> Gateway
@@ -121,16 +121,16 @@ graph LR
 
 ### Service Overview
 
-| Service | Primary Responsibilities | AWS Services |
+| Service | Primary Responsibilities | Technologies |
 |---------|-------------------------|--------------|
-| Content Management | Manage InspoVault, draft lifecycle, content staging, repurposing | DynamoDB, S3, Lambda |
+| Content Management | Manage InspoVault, draft lifecycle, content staging, repurposing | MongoDB, S3, Lambda |
 | Media Processing | Upload videos, generate SRT/silence markers/edit suggestions, Adobe exports | S3, Step Functions, Lambda, Bedrock |
-| AI Generation | Generate ideas/hooks/scripts, platform-specific adaptations, trend integration | Bedrock, Lambda, DynamoDB |
-| Publishing | Multi-platform publishing, OAuth credential management, API integrations | Lambda, Secrets Manager, DynamoDB |
-| Scheduling | Analyze engagement patterns, recommend posting times, schedule automation | EventBridge Scheduler, DynamoDB, Lambda |
-| Analytics | Aggregate metrics, generate AI insights, identify top-performing content | QuickSight, DynamoDB, Lambda, Bedrock |
-| Trend Detection | Monitor viral topics/hashtags, score trends, integrate into generation | Lambda, DynamoDB, EventBridge, Bedrock |
-| Workflow Orchestration | Define workflows, manage approval gates, handle failures | Step Functions, SNS, DynamoDB, Lambda |
+| AI Generation | Generate ideas/hooks/scripts, platform-specific adaptations, trend integration | Bedrock, Lambda, MongoDB |
+| Publishing | Multi-platform publishing, OAuth credential management, API integrations | Lambda, Secrets Manager, MongoDB |
+| Scheduling | Analyze engagement patterns, recommend posting times, schedule automation | EventBridge Scheduler, MongoDB, Lambda |
+| Analytics | Aggregate metrics, generate AI insights, identify top-performing content | Custom Dashboard, MongoDB, Lambda, Bedrock |
+| Trend Detection | Monitor viral topics/hashtags, score trends, integrate into generation | Lambda, MongoDB, EventBridge, Bedrock |
+| Workflow Orchestration | Define workflows, manage approval gates, handle failures | Step Functions, SNS, MongoDB, Lambda |
 
 ### Platform-Specific Adaptations
 
@@ -307,7 +307,7 @@ All API errors follow a consistent JSON structure:
 | | `DRAFT_NOT_FOUND` | Draft does not exist |
 | | `INVALID_TRANSITION` | Invalid stage transition |
 | | `QUOTA_EXCEEDED` | Storage quota exceeded |
-| | `DATABASE_ERROR` | DynamoDB operation failed |
+| | `DATABASE_ERROR` | MongoDB operation failed |
 | **Media Processing** | `UNSUPPORTED_VIDEO` | Video format not supported |
 | | `QUALITY_CHECK_FAILED` | Video quality below threshold |
 | | `TRANSCRIPTION_UNAVAILABLE` | Transcription service unavailable |
@@ -997,7 +997,7 @@ A property is a characteristic or behavior that should hold true across all vali
 <details>
 <summary><strong>Property 11.5: Dashboard Data Formatting</strong></summary>
 
-*For any* analytics visualization request, the data should be formatted correctly for QuickSight dashboards with proper dimensions and measures.
+*For any* analytics visualization request, the data should be formatted correctly for the custom analytics dashboard with proper structure and metrics.
 
 **Validates: Requirements 11.5**
 </details>
@@ -1245,7 +1245,7 @@ A property is a characteristic or behavior that should hold true across all vali
 <details>
 <summary><strong>Property 15.4: Database Failure Recovery</strong></summary>
 
-*For any* DynamoDB operation failure, the system should queue the operation for retry using SQS and maintain data consistency through idempotent operations.
+*For any* MongoDB operation failure, the system should queue the operation for retry using SQS and maintain data consistency through idempotent operations.
 
 **Validates: Requirements 15.4**
 </details>

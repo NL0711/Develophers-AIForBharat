@@ -6,17 +6,17 @@ CreatorOps is an AI-powered content creation platform designed to solve manual a
 
 ## Technical Infrastructure
 
-The platform is built on AWS serverless architecture using the following key services:
+The platform is built on a hybrid serverless architecture using the following key services:
 
 - **AWS Lambda**: Serverless compute for all backend logic and API handlers
 - **API Gateway**: RESTful API interface for frontend-backend communication
 - **AWS Bedrock**: AI content generation using Claude/Llama models for captions, subtitles, and hashtags
-- **DynamoDB**: NoSQL database for storing content metadata, user data, and workflow states
+- **MongoDB Atlas**: NoSQL database for storing content metadata, user data, and workflow states
 - **S3**: Object storage for media assets (videos, images, audio) and exported files
 - **EventBridge Scheduler**: Time-based triggers for automated content publishing
 - **Step Functions**: Orchestration of multi-step workflows from upload to publishing
-- **QuickSight**: Analytics dashboards for engagement metrics and performance insights
-- **AWS Amplify**: Frontend hosting for Next.js application
+- **Custom Analytics Dashboard**: React-based analytics dashboards for engagement metrics and performance insights
+- **Vercel**: Frontend hosting for Next.js application
 
 ## Requirements
 
@@ -55,7 +55,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Corrupted files → Reject upload and notify user<br>
     • Unauthorized access → Deny operation
 </details></td>
-      <td>S3, DynamoDB, AWS Bedrock</td>
+      <td>S3, MongoDB, AWS Bedrock</td>
     </tr>
     <tr>
       <td>2</td>
@@ -98,7 +98,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • AI service unavailable → Return fallback options<br>
     • Rate limit exceeded → Queue request or notify user
 </details></td>
-      <td>AWS Bedrock, DynamoDB, Lambda</td>
+      <td>AWS Bedrock, MongoDB, Lambda</td>
     </tr>
     <tr>
       <td>4</td>
@@ -142,7 +142,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Unauthorized modification → Deny operation<br>
     • Published content edit → Require unpublish first
 </details></td>
-      <td>DynamoDB, S3, Lambda</td>
+      <td>MongoDB, S3, Lambda</td>
     </tr>
     <tr>
       <td>6</td>
@@ -185,7 +185,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Approval timeout → Cancel workflow and notify<br>
     • Missing required approvers → Block workflow start
 </details></td>
-      <td>Step Functions, DynamoDB, Lambda, SNS</td>
+      <td>Step Functions, MongoDB, Lambda, SNS</td>
     </tr>
     <tr>
       <td>8</td>
@@ -207,7 +207,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • API rate limit exceeded → Queue or notify user<br>
     • All platforms fail → Mark as failed and notify
 </details></td>
-      <td>Lambda, API Gateway, DynamoDB, CloudWatch Logs</td>
+      <td>Lambda, API Gateway, MongoDB, CloudWatch Logs</td>
     </tr>
     <tr>
       <td>9</td>
@@ -228,7 +228,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Conflicting schedules → Reject and suggest alternatives<br>
     • Platform unavailable at scheduled time → Reschedule or notify
 </details></td>
-      <td>EventBridge Scheduler, DynamoDB, Lambda, AWS Bedrock</td>
+      <td>EventBridge Scheduler, MongoDB, Lambda, AWS Bedrock</td>
     </tr>
     <tr>
       <td>10</td>
@@ -249,7 +249,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Invalid trend data → Skip and continue processing<br>
     • Trend detection service unavailable → Use cached trends
 </details></td>
-      <td>Lambda, DynamoDB, AWS Bedrock, EventBridge</td>
+      <td>Lambda, MongoDB, AWS Bedrock, EventBridge</td>
     </tr>
     <tr>
       <td>11</td>
@@ -270,7 +270,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Platform API unavailable → Use cached data or notify<br>
     • Invalid date range → Reject and request correction
 </details></td>
-      <td>QuickSight, DynamoDB, AWS Bedrock, Lambda</td>
+      <td>Custom Dashboard, MongoDB, AWS Bedrock, Lambda</td>
     </tr>
     <tr>
       <td>12</td>
@@ -293,7 +293,7 @@ The platform is built on AWS serverless architecture using the following key ser
     • Unauthorized resource access → Deny operation<br>
     • Invalid OAuth tokens → Reject platform connection
 </details></td>
-      <td>Cognito, Secrets Manager, DynamoDB, Lambda</td>
+      <td>Cognito, Secrets Manager, MongoDB, Lambda</td>
     </tr>
     <tr>
       <td>13</td>
